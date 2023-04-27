@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const http = require('http').Server(app); //requiring the http server to show the data through this server
 const io = require('socket.io')(http); // requiring socket io library for bidirectional communication
-// const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 
 
@@ -15,13 +14,6 @@ app.use(express.static(__dirname));  //use method is used for the static content
 app.use(bodyParser.urlencoded({extended:false}));
 
 
-// var messages =[
-//     {name:"Satyam",
-//     message:"Hi"},
-
-//     {name:"Simran",
-//     message:"Heyaa"}
-// ];
 //creating a mongoose model (like defining a schema for collection)
 var Message = mongoose.model('message',{
     name: String,
@@ -54,13 +46,9 @@ io.on('connection',(socket)=>{
 
 
 // connecting mongodb database with express app
-const url = 'mongodb://127.0.0.1:27017/directConnection=true&serverSelectionTimeoutMS=2000';
-// MongoClient.connect(url,(err)=>{
-//     if(err) throw err;
-//     console.log("mongodb connection");
-// });
-
+const url = 'mongodb://127.0.0.1:27017/chatting';
 mongoose.connect(url,(err)=>{
+    mongoose.set('strictQuery', false); 
     console.log("mongodb connection succcess");
 });
 
